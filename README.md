@@ -1,6 +1,6 @@
 # Website_exercise_2017_07
 ****
->npm install ...
+`npm install ...`
 *****
 ## 1.[Website supervise](https://github.com/SpiritLing/Website_exercise_2017_07/tree/master/Website_supervise)
 ******
