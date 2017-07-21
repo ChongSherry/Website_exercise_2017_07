@@ -51,7 +51,8 @@ html,body{
 .list-menu{
   font-size: 3em;
 }
-.main-contetn{
+#root .main-contetn{
+  width: 100%;
   height: 100%;
 }
 .left-main-content{
@@ -61,4 +62,18 @@ html,body{
 .Breadcrumb-main{
   margin: 24px 0 0 16px;
   padding: auto 5em;
+}
+
+.ant-spin-nested-loading{
+  width: 100%;
+  height: 100%;
+}
+.ant-spin-container{
+  width: 100%;
+  height: 100%;
+}
+.ant-layout-content{
+  width: 100%;
+  height: 100%;
+  
 }

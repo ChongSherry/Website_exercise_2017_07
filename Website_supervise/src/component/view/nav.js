@@ -41,8 +41,9 @@ export default class Nav extends React.Component {
               <span>管理员设置</span>
             </Menu.Item>
             <Menu.Item key="4">
+              <Link to={"/user_control"}>
               <Icon type="user" />
-              <span>用户管理</span>
+              <span>用户管理</span></Link>
             </Menu.Item>
             <Menu.Item key="5">
               <Icon type="video-camera" />

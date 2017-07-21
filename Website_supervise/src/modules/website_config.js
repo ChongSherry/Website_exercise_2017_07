@@ -80,6 +80,7 @@ export default class website_config extends React.Component {
 
                 {/*备案号选择  */}
                 <Reference />
+                {/*备案号选择  */}
                 <FormItem
                     wrapperCol={{
                         xs: { span: 24, offset: 0 },
