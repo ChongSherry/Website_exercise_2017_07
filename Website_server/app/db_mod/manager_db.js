@@ -10,6 +10,7 @@ const manage = new mongoose.Schema({
     token:{type:String},
     last_time:{type:Date,default:Date.now},
     is_admin:{type:Boolean,default:false},
-    locked:{type:Boolean,default:false}
+    locked:{type:Boolean,default:false},
+    is:{type:Boolean,default:false} //是否锁定
 });
 mongoose.model("manage", manage);

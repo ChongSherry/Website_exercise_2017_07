@@ -8,7 +8,9 @@ const Option = Select.Option;
 
 // 备案号选项
 const selectBefore = (
-    <Select defaultValue="京ICP备" style={{ width: 80 }}>
+    <Select defaultValue="京ICP备" style={{ width: 80 }}
+        
+    >
         <Option value="京ICP备">京ICP备</Option>
         <Option value="陕ICP备">陕ICP备</Option>
         <Option value="黑ICP备">黑ICP备</Option>
@@ -59,7 +61,9 @@ export default class reference extends React.Component {
                 validateStatus=""
                 help=""
             >
-                <Input addonBefore={selectBefore} addonAfter={"号"} placeholder="请输入域名备案号" />
+                <Input addonBefore={selectBefore} addonAfter={"号"} placeholder="请输入域名备案号"
+
+                />
             </FormItem>
         )
     }

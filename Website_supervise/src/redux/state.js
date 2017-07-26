@@ -8,6 +8,9 @@ export default immutable.fromJS({
         // 导航折叠
         collapsed: false,
         // 登录状态
-        islogin: false
+        islogin: true
+    },
+    load:{
+        loading:true
     }
 });

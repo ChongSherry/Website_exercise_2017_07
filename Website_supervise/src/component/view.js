@@ -1,13 +1,16 @@
 // 主视图组件，也是主组件
+// **引用
 import { Layout, Icon, Spin } from 'antd';
 import React from 'react';
 import '../App.css';
 import { connect,Provider} from 'react-redux';
 import {store} from '../redux/store';
-
+// ****其他分组件
+import actionType from '../redux/actionType';
 import Nav from './view/nav.js';
 import Br from './view/Br.js';
 import LoginModal from './loginModal';
+import LoginState from '../base/loginState';
 const { Header, Sider, Content } = Layout;
 
 class view extends React.Component {
@@ -15,25 +18,36 @@ class view extends React.Component {
     super();
     this.state={
       collapsed:props.state.getIn(["view","collapsed"]),
-      islogin:props.state.getIn(["view","islogin"])
+      islogin:props.state.getIn(["view","islogin"]),
+      loading:props.state.getIn(["load","loading"])
     }
   }
 
   componentWillReceiveProps(nextProps){
     this.setState({
       collapsed:nextProps.state.getIn(["view","collapsed"]),
-      islogin:nextProps.state.getIn(["view","islogin"])
+      islogin:nextProps.state.getIn(["view","islogin"]),
+      loading:nextProps.state.getIn(["load","loading"])
     })
   }
 
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
+  componentDidMount(){
+    if(LoginState.get()){
+      this.props.dispatch(actionType.creat(actionType.SET_LOGIN_STATE, true));
+      this.props.dispatch(actionType.creat(actionType.LOADING, false));
+    }else{
+      this.props.dispatch(actionType.creat(actionType.SET_LOGIN_STATE, false));
+    }
   }
+
+  toggle = () => {
+    this.props.dispatch(actionType.creat(actionType.COLLAPSED_VIEW_SIDER, !this.state.collapsed));
+  }
+
+  
   render() {
     return (
-      <Spin tip="加载中..." spinning={!this.state.islogin} size="large">
+      <Spin tip="加载中..." spinning={this.state.loading} size="large">
         {/*登录modal  */}
         <LoginModal show={!this.state.islogin} />
         {/*登录modal  */}
@@ -48,7 +62,7 @@ class view extends React.Component {
               <span className="logo_title">二组网站后台管理</span>
             </div>
             {/*导航栏  */}
-            <Nav />
+            <Nav location={this.props.location}/>
             {/*导航栏  */}
           </Sider>
           <Layout>
@@ -61,7 +75,7 @@ class view extends React.Component {
             </Header>
 
             {/*路径展示  */}
-            <Br />
+            <Br location={this.props.location}/>
             {/*路径展示  */}
             <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
               {

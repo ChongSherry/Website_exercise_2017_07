@@ -13,7 +13,12 @@ import Fen from './modules/fen.js';
 import Website_config from './modules/website_config';
 //用户管理
 import User_control from './modules/user_control.js';
-
+// 分类管理
+import Content_class from './modules/content_class';
+// 添加内容
+import Content_add from './modules/content_add';
+// 内容列表modules
+import Content_list from './modules/content_list';
 class App extends Component {
   render() {
     return (
@@ -26,6 +31,10 @@ class App extends Component {
             <Router path="/fen" component={Fen} />
             <Router path="/website_config" component={Website_config} />
             <Router path="/user_control" component={User_control} />
+            <Route path="/content_class" component={Content_class} />
+            <Route path="/Content_add" component={Content_add} />
+            <Route path="/Content_edit" component={Content_add} />
+            <Route path="/Content_list" component={Content_list} />
           </Route>
         </Router>
       </Provider>

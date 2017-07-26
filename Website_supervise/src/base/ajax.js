@@ -4,6 +4,10 @@
 */
 
 import ports from './port';
+import LoginState from './loginState';
+import { message } from 'antd';
+import actionType from '../redux/actionType';
+import {store} from '../redux/store';
 class ajax {
     constructor(url = "", data = {}, method = "get", type = "json", async = true) {
         this.send = false;
@@ -20,8 +24,15 @@ class ajax {
         this.init();
     }
 }
-
-
+// 消息提示
+// **错误提示
+const error = (e) => {
+  message.error(e);
+};
+// **成功提示
+const success = (e) => {
+  message.success(e);
+};
 //公用方法和属性
 ajax.prototype = {
     //定义用于检测返回状态的枚举
@@ -84,10 +95,23 @@ ajax.prototype = {
                 // 处理成功
                 if (this.xhr.status == 200) {
                     this.callback.fn_then && this.callback.fn_then(this.xhr);
+                    // 成功提示
+                    success("请求加载成功");
                 } else {
+                    //权限错误处理
+                    if(this.xhr.status=="401"){
+                        store.dispatch(actionType.creat(actionType.SET_LOGIN_STATE,false));  
+                    }
                     //处理失败
-                    let message = (this.statusText[this.xhr.status] || "未定义错误") + "[" + this.xhr.status + "]";
-                    this.callback.fn_catch && this.callback.fn_catch({ message, xhr: this.xhr });
+                    let msg = (this.statusText[this.xhr.status] || "未定义错误") + "[" + this.xhr.status + "]";
+                    this.callback.fn_catch && this.callback.fn_catch({ msg, xhr: this.xhr });
+                    // 错误提示
+                    if(msg){
+                        error(msg);
+                    }else{
+                        error("请求失败");
+                    }
+                    
                 }
                 this.callback.fn_complete && this.callback.fn_complete(this.xhr);
             }
@@ -108,9 +132,14 @@ ajax.prototype = {
         if (this.send) {
             return this;
         } else {
+            //取得token并回传,设置在header
+            const token = LoginState.get();
+            if (token) {
+                this.xhr.setRequestHeader("token", token);  //用POST的时候一定要有这句
+            }
             //标记状态
             this.send = true;
-            let arg=this.serializeObject(this.config.data)
+            let arg = this.serializeObject(this.config.data)
             // 如果为post方式 send方法中要添加数据
             if (this.config.method.toLowerCase() == "post") {
                 this.xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");  //用POST的时候一定要有这句

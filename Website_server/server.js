@@ -27,6 +27,7 @@ mongoose.connect(config.db_connection);
 // 引入路由组件
 const manage = require('./app/manage');
 const website=require('./app/website');
+
 app.prepare()
   .then(() => {
     const server = express()
@@ -36,6 +37,7 @@ app.prepare()
     server.all("*", (req, res, next) => {
             //让接口支持跨域请求
             res.header("Access-Control-Allow-Origin", "*"); //设置跨域访问
+            res.header("Access-Control-Allow-Headers","token");
             next();
         });
     server.get("/",(req,res,next)=>{
@@ -47,6 +49,7 @@ app.prepare()
     });
     server.use("/manage",manage);
     server.use("/website",website);
+    
     server.listen(3998, (err) => {
       if (err) throw err
       console.log('> Ready on http://localhost:3998')

@@ -1,13 +1,19 @@
+@import '~antd/dist/antd.css';
+
 html,body{
-  height: 100%;
+  height:100%;
+  min-height: 100%;
 }
+
 #root {
   height:100%;
+  min-height: 100%;
   overflow: auto;
 }
+#root>.ant-layout{
+  min-height:100%;
+}
 
-
-@import '~antd/dist/antd.css';
 #root .trigger {
   font-size: 18px;
   line-height: 64px;
@@ -15,49 +21,30 @@ html,body{
   cursor: pointer;
   transition: color .3s;
 }
-.ant-layout-sider-children .trigger {
-  font-size: 18px;
-  line-height: 64px;
-  padding: 0 16px;
-  cursor: pointer;
-  transition: color .3s;
-}
 
-.ant-layout-sider-children .trigger:hover {
+#root .trigger:hover {
   color: #108ee9;
 }
-.ant-layout-sider-children .logo {
-  display: block;
+
+#root .logo {
   height: 32px;
   background: #333;
   border-radius: 6px;
   margin: 16px;
   overflow: hidden;
+}
+
+#root .logo .logo_title{
+  color:#FFF;
+  line-height:2.5em;
   text-align: center;
-}
-/*logo标题  */
-.ant-layout-sider-children .logo .logo_title{
-  line-height: 32px;
-  color: white;
-}
-/*缩进图标  */
-.anticon-menu-fold{
-  font-size: 2em;
-}
-.anticon-menu-unfold{
-  font-size: 1.5em;
-}
-/*导航  */
-.list-menu{
-  font-size: 3em;
+  display: block;
+
 }
 #root .main-contetn{
-  width: 100%;
-  height: 100%;
+  min-height: 100%;
 }
-.left-main-content{
-  height: 100%;
-}
+
 /*路径  */
 .Breadcrumb-main{
   margin: 24px 0 0 16px;
