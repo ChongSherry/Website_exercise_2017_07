@@ -1,5 +1,5 @@
 const db = require("mongoose");
-
+// 条件查询，分页，筛选
 const queryPage = (pageNum, pageSize, model, $where, order, callback) => {
     let result = {pageNum,pageSize};
     model.count($where,(error,count)=>{

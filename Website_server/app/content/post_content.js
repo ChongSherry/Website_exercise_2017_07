@@ -61,25 +61,25 @@ router.post("/sortContentList", (req, res, next) => {
     // //接参数
     const { keyword, pageNumber, pageSize, order_field, order_direct, filters } = req.body;
     //查询
-    //page, pageSize, Model,queryParams, sortParams, callback
-    //queryPage()
+    //page：页码 pageSize：页中数据大小 Model：表
+    
+
     let $where = {
-        title: new RegExp(keyword)
+        title: new RegExp(keyword) //RegExp正则表达式
     }
 
     let filter_obj = JSON.parse(filters);
-
+    //添加进去
     for (let i in filter_obj) {
         $where[i] = { "$in": filter_obj[i] }
     }
-
 
     //'ascend' 'descend'
     let order = {}
     if (order_field) {
         order[order_field] = (order_direct === "ascend") ? 1 : -1;
     }
-
+    //queryPage(<页码>，<一页数量>,<链接表>,<查询条件>,<排序>,<回调函数>)
     queryPage(pageNumber, pageSize, model, $where, order, (error, result) => {
         if (!error) {
             httpout(res, httpout.status.OK, result);

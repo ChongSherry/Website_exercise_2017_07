@@ -126,7 +126,6 @@ class content_add extends React.Component {
         delete formData.submiting;
         delete formData.sort_list;
         delete formData.default_sel;
-        debugger;
         if (this.state.edit) {
             delete formData.edit;
             formData.contentText = ueditor.getEditor("content_text").getContent();

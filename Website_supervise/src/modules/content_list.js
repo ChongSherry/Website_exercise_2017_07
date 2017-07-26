@@ -163,9 +163,9 @@ class content_list extends Component {
     }
 
     getSortName(sort_id) {
+        // 获取分类名称
         for (let i = 0; i < this.state.sort_list.length; i++) {
             if (this.state.sort_list[i]._id == sort_id) {
-                console.log(this.state.sort_list[i].name);
                 return this.state.sort_list[i].name;
             }
         }
@@ -239,7 +239,7 @@ class content_list extends Component {
                         </Button>
                     </Button.Group>
                     &emsp;
-                    <Button type="primary" size={"small"}
+                    <Button type="danger" size={"small"}
                         onClick={() => this.handler_remove(record._id)}
                     >
                         <Icon type="delete" />删除
@@ -251,11 +251,11 @@ class content_list extends Component {
             <div>
                     <ButtonGroup>
                         <Button type="primary" >
-                            <Link to={"/content_edit"}>
+                            <Link to={"/content_add"}>
                                 <Icon type="folder-add" />添加内容
                             </Link>
                         </Button>
-                        <Button type="primary"
+                        <Button type="danger"
                             disabled={(this.state.selectRecord.length == 0)}
                             onClick={() => this.handler_remove()}
                         >
