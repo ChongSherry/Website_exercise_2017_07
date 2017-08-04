@@ -16,7 +16,6 @@ export default class br extends React.Component {
     }
     creat_pathname() {
         var paths = this.get_pathname();
-        console.log(paths);
         var brs = [];
         for (var i = 0; i < paths.length; i++) {
             brs.push(

@@ -35,6 +35,7 @@ class ContentClass extends React.Component {
             ).then((xhr) => {
                 this.props.dispatch(actionType.creat(actionType.LOADING, false));
                 this.setState({ list: xhr.response });
+                message.success("加载完毕")
             }).catch((msg, xhr) => {
                 // alert(msg.message);
             }).complete(() => {

@@ -21,5 +21,15 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "proxy": {
+    "/admin": { 
+      "target": "http://localhost:3998/",
+      "ws": true
+    },
+    "/ueditor": { 
+      "target": "http://localhost:3998/",
+      "ws": true
+    }
   }
 }

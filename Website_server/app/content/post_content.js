@@ -6,20 +6,53 @@ const md5 = require('md5');
 const bodyParser = require('body-parser');
 const uuid = require('uuid');
 const queryPage=require('./mod/queryPage');
+const multiparty = require('multiparty');
+const fs = require('fs');
+const path = require('path');
 // const post_content_find=require('./mod/post_content_find');
 // 添加内容
 const content = db.model("content");
+router.post('/upload', (req, res, next) => {
+    let form = new multiparty.Form({ uploadDir: './public/logo/content/' });
+    //上传完成后处理
+    form.parse(req, function (err, fields, files) {
+        if (!err) {
+            let inputFile = files.logo[0];
+            let type = files.logo[0].originalFilename.split(".")[files.logo[0].originalFilename.split(".").length - 1];
+            //临时文件的位置
+            var uploadedPath = inputFile.path;
+            //准备的文件名
+            let fileName = `${uuid()}` + "." + type;
+            //要保存的文件名
+            var dstPath = "./public/logo/content/" + fileName;
+            fs.rename(uploadedPath, dstPath, function (err) {
+                if (!err) {
+                    httpout(res, httpout.status.ok, { fileName: fileName });
+                } else {
+                    httpout(res, httpout.status.e500);
+                }
+            });
+        } else {
+            httpout(res, httpout.status.e500);
+        }
+    });
+})
+
 router.post('/addContent', (req, res, next) => {
     const {
         beginTime,
-        contentText,
         isComment,
+        info,
         keyword,
         show,
         sort_id,
         subTitle,
         title,
-        top
+        top,
+        isdraft,
+        contentText,
+        isrecommend,
+        logo
     } = req.body;
 
     // createtime 默认现在；isdraft 默认不是 ； authttpoutr：默认root；is 删除判断，默认未删除
@@ -27,13 +60,17 @@ router.post('/addContent', (req, res, next) => {
         title:title,
         classid:sort_id,
         subTitle:subTitle,
-        info:contentText,
+        info:info,
         keyword:keyword,
         sendtime:beginTime,
         isshow:show,
         istop:top,
         iscomment:isComment,
-        authttpoutr:""
+        authttpoutr:"",
+        isdraft:isdraft,
+        content:contentText,
+        isrecommend:isrecommend,
+        img_url:logo
     }
     let top_manage = db.model("manage");
     var user={
@@ -123,7 +160,7 @@ router.post("/idSelectContent",(req,res,next)=>{
 router.post('/updateContent', (req, res, next) => {
     const {
         beginTime,
-        contentText,
+        info,
         isComment,
         keyword,
         show,
@@ -131,20 +168,28 @@ router.post('/updateContent', (req, res, next) => {
         subTitle,
         title,
         top,
-        content_id
+        content_id,
+        isrecommend,
+        isdraft,
+        logo
     } = req.body;
+    var contentText=req.body.contentText.replace(/{@and}/g,"&");
     var content_ids={"_id":content_id};
     // createtime 默认现在；isdraft 默认不是 ； authttpoutr：默认root；is 删除判断，默认未删除
     let contentList={
         title:title,
         classid:sort_id,
         subTitle:subTitle,
-        info:contentText,
+        info:info,
         keyword:keyword,
         sendtime:beginTime,
         isshow:show,
         istop:top,
-        iscomment:isComment
+        iscomment:isComment,
+        content:contentText,
+        isrecommend:isrecommend,
+        isdraft:isdraft,
+        img_url:logo
     }
     content.update(content_ids,contentList,(err,reslut)=>{
         if(!err){
@@ -154,4 +199,22 @@ router.post('/updateContent', (req, res, next) => {
         }
     })
 });
+
+router.post('/updateBool',(req,res,next)=>{
+    const { isshow,isdraft,istop,iscomment,_id ,isrecommend}=req.body;
+    var contentList={
+        isshow,
+        isdraft,
+        istop,
+        iscomment,
+        isrecommend
+    }
+    content.update({"_id":_id},contentList,(err,reslut)=>{
+        if(!err){
+            httpout(res,httpout.status.ok);
+        }else{
+            httpout(res,httpout.status.e500);
+        }
+    })
+})
 module.exports=router;

@@ -1,0 +1,74 @@
+body {
+  width: 100%;
+}
+.nav-top {
+  width: 100%;
+}
+@media screen and (min-width: 1200px) {
+  .content-main {
+    width: 1200px;
+    margin: auto;
+  }
+  .navbar {
+    width: 1200px;
+    margin: auto;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .content-main {
+    width: 100%;
+    margin: auto;
+  }
+  .navbar {
+    width: 100%;
+    margin: auto;
+  }
+}
+.Logo_img {
+  height: 45px;
+  width: auto;
+}
+#carousel-example-generic {
+  width: 100%;
+  height: auto;
+}
+#carousel-example-generic .item {
+  width: 100%;
+  height: auto;
+}
+#carousel-example-generic .item > img {
+  width: 100%;
+  height: auto;
+}
+.content-list {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.content-recommend {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.panel-body {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.panel-footer {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.row {
+  padding: 0;
+  margin: 15px -30px;
+}
+.carousel-caption {
+  color: black;
+  font-size: 14pt;
+}
+#carousel-example-generic {
+  margin-top: 10px;
+}
+/*# sourceMappingURL=index.css.map */

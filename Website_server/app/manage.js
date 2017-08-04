@@ -10,7 +10,9 @@ let router = express.Router();
 const db = require('mongoose');
 const get_admin=require('./manage/get_admin');
 const token=require("./manage/token");
-
+const website_config=require('./website_config/website_config');
+const channel=require('./channel/channel');
+const Singlepage=require('./Singlepage/Singlepage');
 router.get("/",(req,res,next)=>{
     res.writeHead(200, {"Content-Type": "text/html;charset=utf-8"});
     res.end("Manage Page");
@@ -27,7 +29,9 @@ router.all("*",token);
 // 正式post数据
 router.use("/post_content_class",post_content_class);
 router.use("/post_content",post_content);
-
+router.use("/website_config",website_config)
+router.use('/channel',channel);
+router.use('/Singlepage',Singlepage);
 
 
 module.exports=router;

@@ -19,6 +19,12 @@ import Content_class from './modules/content_class';
 import Content_add from './modules/content_add';
 // 内容列表modules
 import Content_list from './modules/content_list';
+// 专题管理
+import Subject from './modules/subject';
+// 频道管理
+import Channel from './modules/channel';
+// 单页管理
+import Singlepage from './modules/Singlepage';
 class App extends Component {
   render() {
     return (
@@ -35,6 +41,10 @@ class App extends Component {
             <Route path="/Content_add" component={Content_add} />
             <Route path="/Content_edit" component={Content_add} />
             <Route path="/Content_list" component={Content_list} />
+            <Route path="/Subject" component={Subject} />
+            <Route path="/Channel" component={Channel} />
+            <Route path="/Singlepage" component={Singlepage} />
+            
           </Route>
         </Router>
       </Provider>

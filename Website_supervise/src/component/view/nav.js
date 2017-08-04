@@ -14,8 +14,8 @@ class Nav extends React.Component {
   state = {
     visible: false,
     loading: false,
-    default_ok:this.props.location.pathname,
-    default_col:""
+    default_ok: this.props.location.pathname,
+    default_col: ""
   }
   outlogin() {
     this.setState({ loading: true });
@@ -27,7 +27,7 @@ class Nav extends React.Component {
   }
   render() {
     return (
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={[this.props.location.pathname]} className="list-menu" defaultOpenKeys={["content","config"]}>
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={[this.props.location.pathname]} className="list-menu" defaultOpenKeys={["content", "config"]}>
         <Menu.Item key="/">
           <Link to={"/"}>
             <Icon type="poweroff" />
@@ -51,9 +51,11 @@ class Nav extends React.Component {
               <span>内容列表</span>
             </Link>
           </Menu.Item>
-          <Menu.Item key="12">
-            <Icon type="file-text" />
-            <span>专题管理</span>
+          <Menu.Item key="/Subject">
+            <Link to={"/Subject"}>
+              <Icon type="file-text" />
+              <span>专题管理</span>
+            </Link>
           </Menu.Item>
         </Menu.SubMenu>
         <Menu.Item key="3">
@@ -65,17 +67,21 @@ class Nav extends React.Component {
             <Icon type="user" />
             <span>用户管理</span></Link>
         </Menu.Item>
-        <Menu.Item key="5">
-          <Icon type="video-camera" />
-          <span>单页管理</span>
+        <Menu.Item key="/Singlepage">
+          <Link to={"/Singlepage"}>
+            <Icon type="video-camera" />
+            <span>单页管理</span>
+          </Link>
         </Menu.Item>
         <Menu.SubMenu
           key="config"
           title={<span><Icon type="lock" /><span>网站管理</span></span>}
         >
-          <Menu.Item key="21">
-            <Icon type="lock" />
-            <span>频道设置</span>
+          <Menu.Item key="/Channel">
+            <Link to={"/Channel"}>
+              <Icon type="lock" />
+              <span>频道设置</span>
+            </Link>
           </Menu.Item>
           <Menu.Item key="/content_class">
             <Link to={"/content_class"}>

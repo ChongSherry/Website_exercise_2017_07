@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-    Form, Input, DatePicker, Col, Spin, Button,
+    Form, Input, DatePicker, Col, Spin, Button, Switch, message,
     Table, Icon, Layout, Modal
 } from 'antd';
 import { Link } from 'react-router';
@@ -21,7 +21,7 @@ class content_list extends Component {
             sort_list: [], //分类列表
             list: [], //内容列表
             showAdd: false,
-            showEdit: false,
+            c: false,
             editRecord: undefined,
             selectRecord: [],
             selectKeys: [],
@@ -36,27 +36,66 @@ class content_list extends Component {
             order_field: "createTime",
             order_direct: "descend",
             //筛选
-            filters: {}
+            filters: {},
+            disabled: false
         };
     }
-
     componentDidMount() {
-        this.handler_getSortList(this.handler_getList.bind(this));
+        this.handler_getSortList(this.handler_getList.bind(this), false);
+    }
+    // 开关选择
+    switchUpdata(record, e, val) {
+        console.log(e, record);
+        let data = {
+            iscomment: record.iscomment,
+            isshow: record.isshow,
+            istop: record.istop,
+            isdraft: record.isdraft,
+            _id: record._id
+        };
+        switch (val) {
+            case "top":
+                data.istop = e;
+                break;
+            case "comment":
+                data.iscomment = e;
+                break;
+            case "draft":
+                data.isdraft = e;
+                break;
+            case "show":
+                data.isshow = e;
+                break;
+            case "recommend":
+                data.isrecommend = e;
+                break;
+        }
+        this.props.dispatch(actionType.creat(actionType.LOADING, true));
+        ajax.post(ajax.url(ajax.ports.content.info.updateBool),
+            data
+        ).then((xhr) => {
+
+        }).complete(() => {
+            this.handler_getSortList(this.handler_getList.bind(this), true);
+            this.props.dispatch(actionType.creat(actionType.LOADING, false));
+        })
+
     }
     //取得分类列表
-    handler_getSortList(callback) {
+    handler_getSortList(callback, bool) {
+
         this.props.dispatch(actionType.creat(actionType.LOADING, true));
         ajax.post(
             ajax.url(ajax.ports.content.class.selectContent_class)
         ).then((xhr) => {
             this.setState({ sort_list: xhr.response });
-            callback();
+            callback(bool);
         }).complete(() => {
             this.props.dispatch(actionType.creat(actionType.LOADING, false));
         })
     }
     //得到列表
-    handler_getList() {
+    handler_getList(bool) {
         this.props.dispatch(actionType.creat(actionType.LOADING, true));
         ajax.post(
             ajax.url(ajax.ports.content.info.sortContentList),
@@ -70,6 +109,11 @@ class content_list extends Component {
                 filters: JSON.stringify(this.state.filters)
             }
         ).then((xhr) => {
+            if (bool == true) {
+                message.warn("已更改")
+            } else {
+                message.success("加载完毕")
+            }
             this.setState({
                 list: xhr.response.list,
                 recordCount: xhr.response.count
@@ -210,21 +254,40 @@ class content_list extends Component {
                 { text: "隐藏", value: false }
             ],
             render(value, record) {
-                return (<span style={{ textAlign: "center", display: "block" }}>{value ? "是" : "否"}</span>)
+                return (<Switch checkedChildren="是" unCheckedChildren="否" checked={value} onChange={(e) => { me.switchUpdata(record, e, "show") }} />)
+                // return (<span style={{ textAlign: "center", display: "block" }}>{value ? "是" : "否"}</span>)
+            }
+        }, {
+            title: '置顶',
+            dataIndex: 'istop',
+            key: 'istop',
+            render(value, record) {
+                return (<Switch checkedChildren="是" unCheckedChildren="否" checked={value} onChange={(e) => { me.switchUpdata(record, e, "top") }} />)
+                // return (<span style={{ textAlign: "center", display: "block" }}>{value ? "是" : "否"}</span>)
             }
         }, {
             title: '可评论',
             dataIndex: 'iscomment',
             key: 'iscomment',
             render(value, record) {
-                return (<span style={{ textAlign: "center", display: "block" }}>{value ? "是" : "否"}</span>)
+                return (<Switch checkedChildren="是" unCheckedChildren="否" checked={value} onChange={(e) => { me.switchUpdata(record, e, "comment") }} />)
+                // return (<span style={{ textAlign: "center", display: "block" }}>{value ? "是" : "否"}</span>)
             }
         }, {
             title: '草稿',
             dataIndex: 'isdraft',
             key: 'isdraft',
             render(value, record) {
-                return (<span style={{ textAlign: "center", display: "block" }}>{value ? "是" : "否"}</span>)
+                return (<Switch checkedChildren="是" unCheckedChildren="否" checked={value} onChange={(e) => { me.switchUpdata(record, e, "draft") }} />)
+                // return (<span style={{ textAlign: "center", display: "block" }}>{value ? "是" : "否"}</span>)
+            }
+        }, {
+            title: '推荐',
+            dataIndex: 'isrecommend',
+            key: 'isrecommend',
+            render(value, record) {
+                return (<Switch checkedChildren="是" unCheckedChildren="否" checked={value} onChange={(e) => { me.switchUpdata(record, e, "recommend") }} />)
+                // return (<span style={{ textAlign: "center", display: "block" }}>{value ? "是" : "否"}</span>)
             }
         }, {
             title: '操作',
@@ -233,7 +296,7 @@ class content_list extends Component {
                 <span>
                     <Button.Group size={"small"}>
                         <Button type="primary" >
-                            <Link to={{ pathname: "/content_edit", query: { content_id:record._id} ,state:{content_id:record._id} }}>
+                            <Link to={{ pathname: "/content_edit", query: { content_id: record._id }, state: { content_id: record._id } }}>
                                 <Icon type="edit" />编辑
                             </Link>
                         </Button>
@@ -249,31 +312,31 @@ class content_list extends Component {
         }];
         return (
             <div>
-                    <ButtonGroup>
-                        <Button type="primary" >
-                            <Link to={"/content_add"}>
-                                <Icon type="folder-add" />添加内容
+                <ButtonGroup>
+                    <Button type="primary" >
+                        <Link to={"/content_add"}>
+                            <Icon type="folder-add" />添加内容
                             </Link>
+                    </Button>
+                    <Button type="danger"
+                        disabled={(this.state.selectRecord.length == 0)}
+                        onClick={() => this.handler_remove()}
+                    >
+                        <Icon type="delete" />删除
                         </Button>
-                        <Button type="danger"
-                            disabled={(this.state.selectRecord.length == 0)}
-                            onClick={() => this.handler_remove()}
-                        >
-                            <Icon type="delete" />删除
-                        </Button>
-                    </ButtonGroup>
+                </ButtonGroup>
                 <Content>
-                        <Table
-                            columns={columns}
-                            dataSource={this.state.list}
-                            rowSelection={{ onChange: this.handler_select_change.bind(this), selectedRowKeys: this.state.selectKeys }}
-                            bordered
-                            pagination={{ defaultCurrent: this.state.pageNumber, total: this.state.recordCount, pageSize: this.state.pageSize }}
-                            onChange={(pagination, filters, sorter) => { this.handler_table_change(pagination, filters, sorter) }}
-
-                        />
+                    <Table
+                        columns={columns}
+                        dataSource={this.state.list}
+                        rowSelection={{ onChange: this.handler_select_change.bind(this), selectedRowKeys: this.state.selectKeys }}
+                        bordered
+                        pagination={{ defaultCurrent: this.state.pageNumber, total: this.state.recordCount, pageSize: this.state.pageSize }}
+                        onChange={(pagination, filters, sorter) => { this.handler_table_change(pagination, filters, sorter) }}
+                        style={{"textAlign":"Center"}}
+                    />
                 </Content>
-                </div>
+            </div>
         );
     }
 }

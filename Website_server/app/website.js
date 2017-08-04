@@ -1,12 +1,11 @@
-const express = require('express');
+const express = require("express");
 
-let router = express.Router();
-let db = require('mongoose');
+router = express.Router();
 
-router.get("/",(req,res,next)=>{
-    res.writeHead(200, {"Content-Type": "text/html;charset=utf-8"});
-    res.end("Manage Page");
-    next();
+router.get("/", (req, res) => {
+    return next.render(req, res, '/index', req.query);
 });
 
-module.exports=router;
+
+
+module.exports = router;

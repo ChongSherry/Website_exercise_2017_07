@@ -95,8 +95,6 @@ ajax.prototype = {
                 // 处理成功
                 if (this.xhr.status == 200) {
                     this.callback.fn_then && this.callback.fn_then(this.xhr);
-                    // 成功提示
-                    success("请求加载成功");
                 } else {
                     //权限错误处理
                     if(this.xhr.status=="401"){
@@ -168,6 +166,10 @@ ajax.prototype = {
     //进度条事件
     progress(callback) {
         this.callback.fn_progress = callback;
+        return this.do();
+    },
+    before(callback) {
+        this.callback.fn_before = callback();
         return this.do();
     }
 }

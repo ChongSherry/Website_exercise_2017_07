@@ -1,16 +1,18 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -19,17 +21,42 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>网站后台管理</title>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <script src="ueditor/ueditor.config.js" type="text/javascript" charset="utf-8"></script>
-    <script src="ueditor/ueditor.all.min.js" type="text/javascript" charset="utf-8"></script>
-    <script src="ueditor/lang/zh-cn/zh-cn.js" type="text/javascript" charset="utf-8"></script>
-    <div id="root"></div>
-    <!--
+  <script src="/ueditor/third-party/SyntaxHighlighter/shCore.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" href="/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css">
+  <script type="text/javascript">
+    SyntaxHighlighter.defaults['gutter'] = false;
+    SyntaxHighlighter.defaults['collapse'] = true;
+    SyntaxHighlighter.all();
+  </script>
+  <title>网站后台管理</title>
+</head>
+
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+
+  <script src="/ueditor/ueditor.config.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/ueditor/ueditor.all.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/ueditor/lang/zh-cn/zh-cn.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/ueditor/ueditor.parse.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/ueditor/third-party/SyntaxHighlighter/shCore.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript">
+    var ue = UE.getEditor('container', {
+      indent: false,
+      gmap: false, //google地图
+      map: false,//百度地图
+      preview: false, //预览
+      insertvideo: false, //视频
+      wordimage: false, //图片转存
+      webapp: false, //百度引用
+      template: false, //模板
+      music: false, //音乐
+      drafts: false //从草稿箱加载
+    });
+  </script>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -39,5 +66,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>

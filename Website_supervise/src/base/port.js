@@ -1,5 +1,5 @@
 export default {
-    server: "http://127.0.0.1:3998",
+    server: "http://localhost:3998",
     base: {
         doLogin: "/manage/login/doLogin",
     },
@@ -16,7 +16,28 @@ export default {
             sortContentList:"/manage/post_content/sortContentList",
             removeContent:"/manage/post_content/removeContent",
             isSelectContent:"/manage/post_content/idSelectContent",
-            updateContent:"/manage/post_content/updateContent"
+            updateContent:"/manage/post_content/updateContent",
+            updateBool:"/manage/post_content/updateBool",
+            upload:"/manage/post_content/upload"
         }
+    },
+    config:{
+        upload:"/manage/website_config/logoUpload",
+        getList:"/manage/website_config/getConfig",
+        create:"/manage/website_config/createConfig"
+    },
+    channel:{
+        order:"/manage/channel/order",
+        remove:"/manage/channel/remove",
+        list:"/manage/channel/list",
+        create:"/manage/channel/create",
+        update:"/manage/channel/update",
+        showBool:"/manage/channel/showBool"
+    },
+    Singlepage:{
+        list:"/manage/Singlepage/list",
+        remove:"/manage/Singlepage/remove",
+        create:"/manage/Singlepage/create",
+        update:"/manage/Singlepage/update"
     }
 }
